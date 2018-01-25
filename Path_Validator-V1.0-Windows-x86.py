@@ -1,20 +1,18 @@
 import wx, os, time
 from sys import argv
 
-current_dir = argv[1]
-
-# For Anyone reading my code, Thank you for taking the time to look at this and please
-# consider that this has taken me a whole night to get done.        
+current_dir = argv[1] # Get current directory
 
 class windowClass(wx.Frame):
     
     def __init__(self, *args, **kwds):
         wx.Frame.__init__(self, None, -1, 'Quick FS', size=(360,360), style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER ^ wx.MAXIMIZE_BOX)
         
-        panel = wx.Panel(self, -1)
+        panel = wx.Panel(self, -1) # Make Sure that this looks correct on all platforms
         
         # Main GUI Elements
         
+        # Scroll Back Log
         self.detailBox = wx.TextCtrl(panel, wx.ID_ANY, pos=(5,20), size=(300,250), style=wx.TE_RICH2 | wx.TE_READONLY | wx.TE_MULTILINE)
         
         # Static Text
@@ -23,8 +21,8 @@ class windowClass(wx.Frame):
         self.S_passed = wx.StaticText(panel, wx.ID_ANY, '0 Passed', (10,280))
         self.S_failed = wx.StaticText(panel, wx.ID_ANY, '0 Failed', (90,280))
         
-        self.failed_count = 0
-        self.passed_count = 0
+        self.failed_count = 0 # How many times a path failed and passed
+        self.passed_count = 0 #
         
         # Buttons
         
@@ -34,14 +32,14 @@ class windowClass(wx.Frame):
         self.SetTitle('Path Validator V1.0')
         self.Show(True)
 
-        time.sleep(0.75)
+        time.sleep(2) # Have to add delay so window can load correctly
         self.Validator(current_dir)
     
     def Validator(self, current_dir):
         """Groups everything"""
         self.button0.Disable()
         c_dir = os.path.abspath(current_dir)
-        allChildren = [x[0] for x in os.walk(c_dir)]
+        allChildren = [x[0] for x in os.walk(c_dir)] # have to change because root dir is not included
         
         for folder in allChildren:
                 cachefiles_Folders = os.listdir(folder)
@@ -54,7 +52,7 @@ class windowClass(wx.Frame):
         
         for path in files_Folders:
             
-            if len(c_dir+'/'+path) <= 255:
+            if len(c_dir+'/'+path) <= 255: # 255 to add Buffer
                 self.detailBox.WriteText(c_dir+'\\'+path)
                 self.detailBox.SetDefaultStyle(wx.TextAttr(wx.GREEN))
                 self.detailBox.WriteText("  Passed...\n\n")
@@ -69,10 +67,10 @@ class windowClass(wx.Frame):
                 
         self.S_failed.SetLabel(str(self.failed_count)+' Failed')
         self.S_passed.SetLabel(str(self.passed_count)+' Passed')
-        time.sleep(0.005)
+        time.sleep(0.005) # puts on a bit of a brake
         
     def Retry(self, event):
-        self.button0.Disable()
+        self.button0.Disable() # Disable Retry button to prevent user from spamming it
         self.failed_count = 0
         self.passed_count = 0
         self.detailBox.SetValue('')
