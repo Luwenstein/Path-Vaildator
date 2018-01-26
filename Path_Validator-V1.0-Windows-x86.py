@@ -41,6 +41,7 @@ class windowClass(wx.Frame):
         c_dir = os.path.abspath(current_dir)
         allChildren = [x[0] for x in os.walk(c_dir)] # have to change because root dir is not included
         
+        self.validate(" ", cdir) # validate mother directory
         for folder in allChildren:
                 cachefiles_Folders = os.listdir(folder)
                 self.Validate(cachefiles_Folders, folder)
@@ -52,7 +53,7 @@ class windowClass(wx.Frame):
         
         for path in files_Folders:
             
-            if len(c_dir+'/'+path) <= 255: # 255 to add Buffer
+            if len(c_dir+'/'+path) <= 255: # 255 to add 1 character Buffer
                 self.detailBox.WriteText(c_dir+'\\'+path)
                 self.detailBox.SetDefaultStyle(wx.TextAttr(wx.GREEN))
                 self.detailBox.WriteText("  Passed...\n\n")
