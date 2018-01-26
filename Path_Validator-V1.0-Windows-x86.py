@@ -1,7 +1,7 @@
 import wx, os, time
 from sys import argv
 
-current_dir = argv[1] # Get current directory
+current_dir = sys.argv[1] # Get current directory
 
 class windowClass(wx.Frame):
     
@@ -41,7 +41,7 @@ class windowClass(wx.Frame):
         c_dir = os.path.abspath(current_dir)
         allChildren = [x[0] for x in os.walk(c_dir)] # have to change because root dir is not included
         
-        self.validate(" ", cdir) # validate mother directory
+        self.Validate(" ", c_dir) # validate mother directory
         for folder in allChildren:
                 cachefiles_Folders = os.listdir(folder)
                 self.Validate(cachefiles_Folders, folder)
